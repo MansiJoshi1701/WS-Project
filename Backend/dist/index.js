@@ -12,7 +12,7 @@ const httpServer = app.listen(8080, () => {
 //The first request that the browser makes is an HTTP request, it gets UPGRADED to a WS connection on the server
 const wss = new ws_1.WebSocketServer({ server: httpServer });
 wss.on('connection', (ws) => {
-    ws.on('error', console.error);
+    ws.on('error', (err) => console.error(err));
     ws.on('message', (data, isBinary) => {
         wss.clients.forEach((client) => {
             if (client.readyState === ws_1.WebSocket.OPEN) {
@@ -22,6 +22,9 @@ wss.on('connection', (ws) => {
     });
     ws.send('Hello! message from server');
 });
+// httpServer.listen(8080, function(){
+//     console.log((new Date()) + 'Server is listening on port 8080')
+// });
 /* Below is the same code using http library
 
 

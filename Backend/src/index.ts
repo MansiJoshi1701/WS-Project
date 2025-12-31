@@ -13,11 +13,10 @@ const wss = new WebSocketServer({ server : httpServer });
 
 wss.on('connection' , (ws) => { //ws is the websocket instance 
 
-    ws.on('error' , console.error);
+    ws.on('error' , (err) => console.error(err));
 
     ws.on('message' , (data , isBinary) => {
-
-        wss.clients.forEach((client) => { //this is for broadcasting a msg to all the clients
+        wss.clients.forEach((client) => { //this is for broadcasting the msg (data) to all the clients
             if(client.readyState === WebSocket.OPEN){
                 client.send(data , { binary: isBinary });
             }
@@ -28,6 +27,10 @@ wss.on('connection' , (ws) => { //ws is the websocket instance
 
 });
 
+
+// httpServer.listen(8080, function(){
+//     console.log((new Date()) + 'Server is listening on port 8080')
+// });
 
 
 /* Below is the same code using http library
